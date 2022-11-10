@@ -5,6 +5,8 @@ import (
 	"os"
 	"sync"
 	"time"
+
+	ginrouter "github.com/Calmantara/go-user/common/infra/gin/router"
 )
 
 func main() {
@@ -16,7 +18,7 @@ func main() {
 	var wg sync.WaitGroup
 	wg.Add(1)
 	go func() {
-		server.SERVE()
+		server.SERVE(ginrouter.WithPort(fmt.Sprintf("%v", conf["httpport"])))
 		wg.Done()
 	}()
 

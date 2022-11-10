@@ -7,7 +7,6 @@ import (
 	"github.com/Calmantara/go-user/common/logger"
 	"github.com/Calmantara/go-user/common/setup/config"
 	"github.com/Calmantara/go-user/pkg/domain/user"
-	"github.com/gin-gonic/gin"
 	"go.uber.org/dig"
 
 	ginrouter "github.com/Calmantara/go-user/common/infra/gin/router"
@@ -15,6 +14,7 @@ import (
 	"github.com/Calmantara/go-user/common/middleware/cors"
 	serviceutil "github.com/Calmantara/go-user/common/service/util"
 	userrepo "github.com/Calmantara/go-user/pkg/repository/user"
+	"github.com/Calmantara/go-user/pkg/server/http/handler/auth"
 	userhdl "github.com/Calmantara/go-user/pkg/server/http/handler/user"
 	userrouter "github.com/Calmantara/go-user/pkg/server/http/router/v1/user"
 	userusecase "github.com/Calmantara/go-user/pkg/usecase/user"
@@ -66,13 +66,11 @@ func BuildInRuntime() (serviceConf map[string]any, ginRouter ginrouter.GinRouter
 		app, _ := json.Marshal(config.GetRawConfig()["service"])
 		// unmarshal config
 		json.Unmarshal(app, &serviceConf)
-		// init http routers and server
+		// init server
 		ginRouter = gn
-
-		gn.USE(cors.NewCorsMiddleware().Cors,
-			func(ctx *gin.Context) {
-
-			})
+		// init middleware
+		gn.USE(cors.NewCorsMiddleware().Cors, auth.AuthStatic)
+		// init routers
 		userRouter.Routers()
 	}); err != nil {
 		panic(err)

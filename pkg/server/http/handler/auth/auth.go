@@ -12,7 +12,7 @@ const (
 func AuthStatic(c *gin.Context) {
 	// check header
 	key := c.GetHeader("key")
-	// check if key exist or not∑
+	// check if key exist or not
 	if key == "" {
 		c.AbortWithStatusJSON(int(response.MISSING_API_CODE), response.MISSING_API_MSG)
 		return
@@ -22,6 +22,5 @@ func AuthStatic(c *gin.Context) {
 		c.AbortWithStatusJSON(int(response.INVALID_API_KEY_CODE), response.INVALID_API_KEY_MSG)
 		return
 	}
-
 	c.Next()
 }
