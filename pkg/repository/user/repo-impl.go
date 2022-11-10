@@ -80,7 +80,7 @@ func (u *UserRepoImpl) InsertUserRepo(ctx context.Context, userDet *user.User) (
 	// generate transaction
 	txn := u.readCln.GenerateTransaction(ctx)
 	txn.Model(user.User{}).
-		Create(userDet)
+		Create(userDet).Debug()
 
 	// dirty code
 	// 1. input photos

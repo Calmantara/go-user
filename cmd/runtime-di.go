@@ -17,6 +17,7 @@ import (
 	"github.com/Calmantara/go-user/pkg/server/http/handler/auth"
 	userhdl "github.com/Calmantara/go-user/pkg/server/http/handler/user"
 	userrouter "github.com/Calmantara/go-user/pkg/server/http/router/v1/user"
+	"github.com/Calmantara/go-user/pkg/usecase/crypto"
 	userusecase "github.com/Calmantara/go-user/pkg/usecase/user"
 )
 
@@ -27,7 +28,7 @@ func commonDependencies() []any {
 }
 
 func svcDependencies() []any {
-	return []any{userusecase.NewUserUsecase}
+	return []any{userusecase.NewUserUsecase, crypto.NewHash}
 }
 
 func handlerDependencies() []any {
