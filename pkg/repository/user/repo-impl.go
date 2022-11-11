@@ -4,9 +4,8 @@ import (
 	"context"
 
 	"github.com/Calmantara/go-user/common/logger"
-	creditcard "github.com/Calmantara/go-user/pkg/domain/credit-card"
-	"github.com/Calmantara/go-user/pkg/domain/photo"
 	"github.com/Calmantara/go-user/pkg/domain/user"
+	"gorm.io/gorm"
 
 	confgorm "github.com/Calmantara/go-user/common/infra/gorm"
 )
@@ -37,6 +36,7 @@ func (u *UserRepoImpl) GetUsersRepo(ctx context.Context, userQuery user.UserQuer
 	}
 	return err
 }
+
 func (u *UserRepoImpl) GetUserByIdRepo(ctx context.Context, userDet *user.User) (err error) {
 	u.sugar.WithContext(ctx).Infof("execute %T GetUserByIdRepo", u)
 	defer u.sugar.WithContext(ctx).Infof("%T GetUserByIdRepo executed", u)
@@ -44,7 +44,13 @@ func (u *UserRepoImpl) GetUserByIdRepo(ctx context.Context, userDet *user.User) 
 	// generate transaction
 	txn := u.readCln.GenerateTransaction(ctx)
 	txn.Model(user.User{}).
-		Select("*").
+		Select("id, name, email, address").
+		Preload("Photos", func(db *gorm.DB) *gorm.DB {
+			return db.Select("name, user_id")
+		}).
+		Preload("CreditCardToken", func(db *gorm.DB) *gorm.DB {
+			return db.Select("token, user_id")
+		}).
 		Where("id = ?", userDet.Id).
 		Find(userDet)
 	if err = txn.Error; err != nil {
@@ -52,6 +58,7 @@ func (u *UserRepoImpl) GetUserByIdRepo(ctx context.Context, userDet *user.User) 
 	}
 	return err
 }
+
 func (u *UserRepoImpl) UpdateUserRepo(ctx context.Context, userDet *user.User) (err error) {
 	u.sugar.WithContext(ctx).Infof("execute %T UpdateUserRepo", u)
 	defer u.sugar.WithContext(ctx).Infof("%T UpdateUserRepo executed", u)
@@ -60,39 +67,22 @@ func (u *UserRepoImpl) UpdateUserRepo(ctx context.Context, userDet *user.User) (
 	txn.Model(user.User{}).
 		Create(userDet)
 
-	// dirty code
-	// 1. input photos
-	txn.Model(photo.Photo{}).
-		Create(userDet.Photos)
-
-	// 2. input credit card
-	txn.Model(creditcard.CreditCard{}).
-		Create(userDet.CreditCard)
-
 	if err = txn.Error; err != nil {
 		u.sugar.WithContext(ctx).Errorf("error execute ReadWallet:%v", err.Error())
 	}
 	return err
 }
+
 func (u *UserRepoImpl) InsertUserRepo(ctx context.Context, userDet *user.User) (err error) {
 	u.sugar.WithContext(ctx).Infof("execute %T InsertUserRepo", u)
 	defer u.sugar.WithContext(ctx).Infof("%T InsertUserRepo executed", u)
 	// generate transaction
 	txn := u.readCln.GenerateTransaction(ctx)
 	txn.Model(user.User{}).
-		Create(userDet).Debug()
-
-	// dirty code
-	// 1. input photos
-	txn.Model(photo.Photo{}).
-		Create(userDet.Photos)
-
-	// 2. input credit card
-	txn.Model(creditcard.CreditCard{}).
-		Create(userDet.CreditCard)
+		Create(userDet)
 
 	if err = txn.Error; err != nil {
-		u.sugar.WithContext(ctx).Errorf("error execute ReadWallet:%v", err.Error())
+		u.sugar.WithContext(ctx).Errorf("error execute register user:%v", err.Error())
 	}
 	return err
 }

@@ -9,15 +9,16 @@ import (
 	"github.com/Calmantara/go-user/pkg/domain/user"
 	"go.uber.org/dig"
 
+	"github.com/Calmantara/go-user/common/middleware/cors"
+	"github.com/Calmantara/go-user/pkg/server/http/handler/auth"
+	"github.com/Calmantara/go-user/pkg/usecase/crypto"
+
 	ginrouter "github.com/Calmantara/go-user/common/infra/gin/router"
 	confgorm "github.com/Calmantara/go-user/common/infra/gorm"
-	"github.com/Calmantara/go-user/common/middleware/cors"
 	serviceutil "github.com/Calmantara/go-user/common/service/util"
 	userrepo "github.com/Calmantara/go-user/pkg/repository/user"
-	"github.com/Calmantara/go-user/pkg/server/http/handler/auth"
 	userhdl "github.com/Calmantara/go-user/pkg/server/http/handler/user"
 	userrouter "github.com/Calmantara/go-user/pkg/server/http/router/v1/user"
-	"github.com/Calmantara/go-user/pkg/usecase/crypto"
 	userusecase "github.com/Calmantara/go-user/pkg/usecase/user"
 )
 
@@ -28,7 +29,7 @@ func commonDependencies() []any {
 }
 
 func svcDependencies() []any {
-	return []any{userusecase.NewUserUsecase, crypto.NewHash}
+	return []any{userusecase.NewUserUsecase, crypto.NewHash, crypto.NewJwt}
 }
 
 func handlerDependencies() []any {

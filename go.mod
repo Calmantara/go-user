@@ -4,11 +4,12 @@ go 1.19
 
 require (
 	github.com/gin-gonic/gin v1.8.1
-	github.com/golang/mock v1.6.0
 	github.com/google/uuid v1.3.0
+	github.com/kataras/jwt v0.1.8
 	github.com/spf13/viper v1.14.0
 	go.uber.org/dig v1.15.0
 	go.uber.org/zap v1.23.0
+	golang.org/x/crypto v0.0.0-20220722155217-630584e8d5aa
 	gorm.io/driver/postgres v1.4.5
 	gorm.io/gorm v1.24.1
 )
@@ -78,7 +79,6 @@ require (
 	go.opencensus.io v0.23.0 // indirect
 	go.uber.org/atomic v1.9.0 // indirect
 	go.uber.org/multierr v1.8.0 // indirect
-	golang.org/x/crypto v0.0.0-20220722155217-630584e8d5aa // indirect
 	golang.org/x/net v0.0.0-20221014081412-f15817d10f9b // indirect
 	golang.org/x/oauth2 v0.0.0-20221014153046-6fdb5e3db783 // indirect
 	golang.org/x/sync v0.1.0 // indirect
