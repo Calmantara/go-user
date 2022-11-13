@@ -1,2 +1,4 @@
 CREATE DATABASE "user";
 GRANT ALL PRIVILEGES ON DATABASE "user" TO postgres;
+
+USING "user";

@@ -6,7 +6,7 @@ import (
 	"sync"
 	"time"
 
-	ginrouter "github.com/Calmantara/go-user/common/infra/gin/router"
+	ginrouter "github.com/Calmantara/go-user/lib/infra/gin/router"
 )
 
 func main() {

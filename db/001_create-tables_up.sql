@@ -18,7 +18,7 @@ CREATE INDEX idx_users_record_flag ON public.users USING btree (record_flag);
 
 CREATE TABLE public.photos (
 	id bigserial NOT NULL,
-	user_id int8 NULL,
+	user_id int NULL,
 	"name" text NULL,
 	created_by text NULL,
 	updated_by text NULL,
@@ -30,11 +30,12 @@ CREATE TABLE public.photos (
 	CONSTRAINT fk_users_photos FOREIGN KEY (user_id) REFERENCES public.users(id)
 );
 CREATE INDEX idx_photos_deleted_at ON public.photos USING btree (deleted_at);
+CREATE UNIQUE INDEX idx_photos_name_user_id ON public.photos USING btree (user_id, name);
 CREATE INDEX idx_photos_record_flag ON public.photos USING btree (record_flag);
 
 CREATE TABLE public.credit_card_tokens (
 	id bigserial NOT NULL,
-	user_id int8 NULL,
+	user_id int NULL,
 	"token" text NULL,
 	created_by text NULL,
 	updated_by text NULL,

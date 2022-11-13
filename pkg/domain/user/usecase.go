@@ -7,7 +7,7 @@ import (
 )
 
 type UserUsecase interface {
-	GetUsersSvc(ctx context.Context, users []*User) (err response.ErrorResponse)
+	GetUsersSvc(ctx context.Context, query UserQuery, users *[]*User) (err response.ErrorResponse)
 	GetUserByIdSvc(ctx context.Context, user *User) (err response.ErrorResponse)
 	UpdateUserSvc(ctx context.Context, user *User) (err response.ErrorResponse)
 	InsertUserSvc(ctx context.Context, user *User) (err response.ErrorResponse)

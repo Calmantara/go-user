@@ -1,6 +1,14 @@
 package creditcard
 
-import "github.com/Calmantara/go-user/common/entity"
+import "github.com/Calmantara/go-user/lib/entity"
+
+var (
+	CreditCardTypeMap = map[string]bool{
+		"GOLD":     true,
+		"PREMIUM":  true,
+		"PLATINUM": true,
+	}
+)
 
 type CreditCardToken struct {
 	Id     uint64 `json:"id"`

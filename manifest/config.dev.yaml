@@ -2,7 +2,7 @@ service:
   name: 'go-user'
   httpPort: 8080
 postgresRead:
-  host: '127.0.0.1'
+  host: 'postgres'
   port: 5432
   database: 'user'
   username: 'postgres'
@@ -17,7 +17,7 @@ postgresRead:
   # in minute
   maxIdleConnectionTtl: 5 
 postgresWrite:
-  host: '127.0.0.1'
+  host: 'postgres'
   port: 5432
   database: 'user'
   username: 'postgres'

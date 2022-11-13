@@ -9,9 +9,9 @@ services:
       - "5432:5432"
     restart: "always"
     env_file:
-      - "app.env"
+      - "./postgres/app.env"
     volumes:
-      - "./pg:/var/lib/postgresql/data"
+      - "./postgres/pg:/var/lib/postgresql/data"
     deploy:
       resources:
         limits:
@@ -20,7 +20,23 @@ services:
     networks:
       work-vnet:
         ipv4_address: 10.0.0.5
-
+  go-user:
+    build: ../
+    container_name: go-user
+    ports:
+      - "8080:8080"
+    deploy:
+      resources:
+        limits:
+          cpus: "0.10"
+          memory: "126M"
+    depends_on:
+      - postgres
+    links:
+      - postgres
+    networks:
+      work-vnet:
+        ipv4_address: 10.0.0.6
 networks:
   work-vnet:
     name: infra-vnet

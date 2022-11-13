@@ -3,19 +3,19 @@ package main
 import (
 	"encoding/json"
 
-	"github.com/Calmantara/go-user/common/infra/gorm/transaction"
-	"github.com/Calmantara/go-user/common/logger"
-	"github.com/Calmantara/go-user/common/setup/config"
+	"github.com/Calmantara/go-user/lib/infra/gorm/transaction"
+	"github.com/Calmantara/go-user/lib/logger"
+	"github.com/Calmantara/go-user/lib/setup/config"
 	"github.com/Calmantara/go-user/pkg/domain/user"
 	"go.uber.org/dig"
 
-	"github.com/Calmantara/go-user/common/middleware/cors"
+	"github.com/Calmantara/go-user/lib/middleware/cors"
 	"github.com/Calmantara/go-user/pkg/server/http/handler/auth"
 	"github.com/Calmantara/go-user/pkg/usecase/crypto"
 
-	ginrouter "github.com/Calmantara/go-user/common/infra/gin/router"
-	confgorm "github.com/Calmantara/go-user/common/infra/gorm"
-	serviceutil "github.com/Calmantara/go-user/common/service/util"
+	ginrouter "github.com/Calmantara/go-user/lib/infra/gin/router"
+	confgorm "github.com/Calmantara/go-user/lib/infra/gorm"
+	serviceutil "github.com/Calmantara/go-user/lib/service/util"
 	userrepo "github.com/Calmantara/go-user/pkg/repository/user"
 	userhdl "github.com/Calmantara/go-user/pkg/server/http/handler/user"
 	userrouter "github.com/Calmantara/go-user/pkg/server/http/router/v1/user"
